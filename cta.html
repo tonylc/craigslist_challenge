@@ -1,0 +1,42 @@
+<head>
+  <title>SF bay area cars & trucks - all classifieds  - craigslist</title>
+  <style>
+    /* craigslist.css cl_version: 9 */
+    body     { background: white; }
+    fieldset { background: #eee; }
+    legend   { font-weight: bold; font-family: sans-serif; font-size: small; }
+    label    { cursor: pointer; }
+    em       { color: red; font-weight: bold; font-style: normal; }
+    sup      { font-size: x-small; }
+    form     { margin: 0 }
+
+    p   { clear: both; }
+    img { border: 0; }
+
+    input.dv, textarea.dv { color: #aaa !important ; }
+
+    #listings span.p { color: orange; font-size: smaller; }
+    #listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <script src="http://asana.com/craigslist/cta.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>
+    $(function() {
+      var listings = $("<div id='listings'>")
+      $.each($(POSTS), function(i, el) {
+        listings.append(createRow(el));
+      });
+      $("body").prepend(listings);
+    });
+
+    function createRow(el) {
+      return $("<p class=\"row\">" +
+    		"<span class=\"ih\">&nbsp;</span>" +
+    		"<a href=\"" + el.uri + "\">" + el.title + "</a> -" +
+    		"<font size=\"-1\"> (nob hill)</font> <span class=\"p\"> img</span> <small class=\"gc\"><a href=\"/ctd/\"></a></small><br class=\"c\"></p>")
+    }
+  </script>
+</body>
