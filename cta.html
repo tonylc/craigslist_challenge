@@ -17,26 +17,47 @@
 
     #listings span.p { color: orange; font-size: smaller; }
     #listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
+
+    .s { height: 19px; width: 19px; cursor: pointer; display: inline-block; position: relative; top: 4px; margin: 0 2px; }
+    .s.star { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAA7UlEQVQ4ja2TQQqDMBBFA121K6FQcOGqUOiiKOQgnsOVW2/h1lt4BI/gEbyGOztPbElrgrFN4MEwM/lk8hM1TZMKxXaDUifhGEosgVBiD/hbjBGzLNNA/K9YUte1Bp9RN0cchkGDz6jmJetviqLQUp8htvWYJzZPcU7TVDdN8xZwQQ+97HGOyXsSsqqqnELU6LG9Pds9HYRb13UrIXLU6PE2QNalLMuVGDlqu9yUdW3bdhbo+36GmBy1vWJ6HMeXg3cgJkfNW0xWlOe5hg/bJTbyka9Ysri12kBuqVl/g00sdrlluB1739mvBBV7AhG2d6ps7hf9AAAAAElFTkSuQmCC); }
+    .s.star:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABNklEQVQ4y62UoY6DUBBFMWtX1xCSNqnBkdTULM2amhv+AAUCBEj+BFtdhUeAqQDFLzR1WAQQEmAZwiawoemjyyQ3ecBwmPsueVzbttxaet3AcZ+ktWAiaS3YN+nfMLLH8zx2ux1YrL60qKoqHMcBi9WXFi+XC+I4BovV8Sbjr2RZRhRFyLIMmqZhrmc88XgKXhAE6LqO6/Xay/d93O93VFXVi9Z0j3qol955anP4p86maeLxeCBNU+R5jqZpetHasiyCnOcCmdunj07HIAjQXU8UhiGBjtTDHEBXW5qurusJzLZtgm0XpdnVwXVdFEWBJEl6EczzPIIdlsJwu91+E/wiGYaBsiz7BJlhXW0kScLpdJrG3q0VRQEV9bDCxCGtzdyHhmciK2z/LK1R2vu3To1VD8cl+gFlv3RuSxPY8wAAAABJRU5ErkJggg==); }
+    .s.star-lit { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABAklEQVQ4y62UQQrCMBBFvYFH0Zt04UYQrCgoIuoReoQcxb2bLgQVBRUFXRZXgqAFBUUEx/wapbZNSGkKrwwzP5/OTGiOiHKm+LwUz35YKnIKKk0aMwZMmXkgsxlaPLhlAoizmrHLrE5A1aqumffcdAioWv0zE0OmKKdxlWjXC0CcpMHZ2JfxpI3ZXOeNn4EMaMQcbWmbuE8c35/WpEaoQRO+e9KZcVGe495XrZgRcqhBo70ALu6fJ3bMDDnUUm2THxjcFs3A4LFuByBGDrW0ZvTadr8bXALEyKGmbcbF1nFUIRC+qIhDeUvXjIltWdEvQE7UmK6ZE91WwrYdqZnRn6Mp3v40eks3+rwsAAAAAElFTkSuQmCC); }
+    .s.star-lit:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABsUlEQVQ4y61UPSxDURhtvSoq6WCzWI1YDCYLQfLaSUQlIsJC0g4S0hCL2AmDVSwiXfDURuJfIkoqQftalXQwNIJERCQ+9zy3ct/zLk3TJqc5Pd/5Tu+9333PQUSOUuH7S/5x3m6qTQyN4DJTIWFoLktqvnkAXBZYSBiay1NRfwYA51pRYcrhSntzdreXAHBoxYRhO66bDXXhOTZKADg0u61aw5x8CwoHmir1Ld/9hx4mABwar+V9xjmawvSoby697ScrcieDRJlpA+B2HvRaV+a+jHQNZ3d66CU2QnQ39SfggRc96LWGYVJV2mJrC5vc0+PpEFF60haowQMvetBrDcP+3QzVob76OnbYB2/xIFEqbAI01OCBl/cosgEYgWerHeHc8QCRPmECNNSEoN8DEO8WJsb+XXu9YGeXHKf3q5ABcGio8akqsqsh3voKTOkzMUa5o35KaGocAIeGGjzi0yBd2flaZ/fDXoAANq0lptUA4Hkdnv9W9nPrMa395bYA++3l5wN4oaFmfRqkYdfr6sxssKGWcQ/fjosD3IMaPIWEKfzOuYW3hFOYtlhTbMNKhS/+YkaFYiVmKgAAAABJRU5ErkJggg==); }
   </style>
 </head>
 <body>
-
+  <div class="s"></div>
+  <div id="template"></div>
   <script src="http://asana.com/craigslist/cta.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script>
+    var posts = {} // building global object cache for posts
+
     $(function() {
       var listings = $("<div id='listings'>")
       $.each($(POSTS), function(i, el) {
+        posts[el.id] = el;
         listings.append(createRow(el));
       });
-      $("body").prepend(listings);
+      $("#template").prepend(listings);
     });
 
     function createRow(el) {
       return $("<p class=\"row\">" +
-    		"<span class=\"ih\">&nbsp;</span>" +
-    		"<a href=\"" + el.uri + "\">" + el.title + "</a> -" +
-    		"<font size=\"-1\"> (nob hill)</font> <span class=\"p\"> img</span> <small class=\"gc\"><a href=\"/ctd/\"></a></small><br class=\"c\"></p>")
+        "<span class=\"s star\"></span>" +
+    		"<span class=\"ih\"></span>" +
+    		"<a data-id=\"" + el.id + "\" class=\"listing-link\" href=\"" + el.uri + "\">" + el.title + "</a> -" +
+    		"<font size=\"-1\"> (nob hill)</font> <span class=\"p\"> img</span> <small class=\"gc\"><a href=\"/ctd/\">dealer</a></small><br class=\"c\"></p>")
     }
+
+    $("#template").on("click", ".listing-link", function(e) {
+      e.preventDefault();
+      var el = posts[$(this).data("id")];
+      var table = $("<table>")
+        .append("<tr>")
+          .append("<td>Email:")
+          .append("<td><a href=\"" + el.mailto + "\">" + el.email + "</a>");
+      $(this).closest(".row").append(table);
+    });
   </script>
 </body>
