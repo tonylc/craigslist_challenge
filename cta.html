@@ -43,25 +43,29 @@
     });
 
     function createRow(el) {
-      return $("<p class=\"row\">" +
-        "<span class=\"s star\"></span>" +
-    		"<span class=\"ih\"></span>" +
-    		"<a data-id=\"" + el.id + "\" class=\"listing-link\" href=\"" + el.uri + "\">" + el.title + "</a> -" +
-    		"<font size=\"-1\"> (nob hill)</font> <span class=\"p\"> img</span> <small class=\"gc\"><a href=\"/ctd/\">dealer</a></small><br class=\"c\"></p>")
+      return $("<p class='row'>")
+        .append("<span class='s star'></span>")
+        .append("<span class='ih'></span>")
+        .append("<a data-id='" + el.id + "' class='listing-link' href='" + el.uri + "'>" + el.title + "</a>")
+        .append(" -<font size='-1'> (nob hill)</font> <span class='p'> img</span> <small class='gc'><a href='/ctd/'>dealer</a></small><br class='c'></p>");
+    }
+
+    function createListingExpanded(el) {
+      return $("<table>")
+        .append("<tr>")
+          .append("<td>Email:")
+          .append("<td><a href=\"" + el.mailto + "\">" + el.email + "</a>");
     }
 
     $("#template").on("click", ".listing-link", function(e) {
       e.preventDefault();
-      var table = $(this).closest(".row").find("table");
+      var row = $(this).closest(".row"), table = row.find("table");
       if (table.length) {
         table.toggle();
       } else {
         var el = posts[$(this).data("id")];
-        var table = $("<table>")
-          .append("<tr>")
-            .append("<td>Email:")
-            .append("<td><a href=\"" + el.mailto + "\">" + el.email + "</a>");
-        $(this).closest(".row").append(table);
+        table = createListingExpanded(el);
+        row.append(table);
       }
     });
   </script>
