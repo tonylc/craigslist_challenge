@@ -52,12 +52,17 @@
 
     $("#template").on("click", ".listing-link", function(e) {
       e.preventDefault();
-      var el = posts[$(this).data("id")];
-      var table = $("<table>")
-        .append("<tr>")
-          .append("<td>Email:")
-          .append("<td><a href=\"" + el.mailto + "\">" + el.email + "</a>");
-      $(this).closest(".row").append(table);
+      var table = $(this).closest(".row").find("table");
+      if (table.length) {
+        table.toggle();
+      } else {
+        var el = posts[$(this).data("id")];
+        var table = $("<table>")
+          .append("<tr>")
+            .append("<td>Email:")
+            .append("<td><a href=\"" + el.mailto + "\">" + el.email + "</a>");
+        $(this).closest(".row").append(table);
+      }
     });
   </script>
 </body>
