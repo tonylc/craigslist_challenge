@@ -43,13 +43,21 @@
 		}
 
 		Post.prototype = {
-			createRow: function() {
-				this.dom = $("<p class='row' data-id='" + this.data.id + "'>")
+			createDom: function() {
+				var row = $("<p class='row' data-id='" + this.data.id + "'>")
 					.append("<span class='star'></span>")
 					.append("<span class='ih'></span>")
 					.append("<a class='listing-link' href='" + this.data.uri + "'>" + this.data.title + "</a>")
-					.append(" -<font size='-1'> (nob hill)</font> <span class='p'> img</span> <small class='gc'><a href='/ctd/'>dealer</a></small><br class='c'></p>");
-				return this.dom;
+					.append(" -<font size='-1'> (nob hill)</font>");
+					
+				if (this.hasImage()) {
+					row.append("<span class='p'> img</span>");
+				}
+				
+				row.append("<small class='gc'><a href='/ctd/'>dealer</a></small>")
+					.append("<br class='c'>");
+					
+				this.dom = row;
 			},
 			createListingExpanded: function() {
 				return $("<table>")
@@ -62,6 +70,9 @@
 					.append($("<tr>")
 						.append("<td>Description:")
 						.append("<td>" + this.data.description_html));
+			},
+			hasImage: function() {
+				return this.data.description_html.indexOf("<img") != -1;
 			}
 		}
 
@@ -69,8 +80,8 @@
 			var listings = $("<div id='listings'>")
 			$.each($(POSTS), function(i, el) {
 				var post = new Post(el);
-				post.createRow(el);
-				posts[el.id] = post
+				post.createDom(el);
+				posts[el.id] = post;
 				listings.append(post.dom);
 			});
 			$("#template").prepend(listings);
