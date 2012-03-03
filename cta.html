@@ -2,23 +2,15 @@
 	<title>SF bay area cars & trucks - all classifieds  - craigslist</title>
 	<style>
 		body     { background: white; }
-		fieldset { background: #eee; }
-		legend   { font-weight: bold; font-family: sans-serif; font-size: small; }
-		label    { cursor: pointer; }
-		em       { color: red; font-weight: bold; font-style: normal; }
-		sup      { font-size: x-small; }
-		form     { margin: 0 }
-
 		p   { clear: both; }
 		img { border: 0; }
-
 		h4 { background: #EEE; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding: 6px 25px; }
-
-		input.dv, textarea.dv { color: #aaa !important ; }
 
 		#listings span.p,
 		#prority span.p { color: orange; font-size: smaller; }
 		#listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
+		
+		.row table { margin-left: 20px; }
 
 		.star { height: 19px; width: 19px; cursor: pointer; display: inline-block; position: relative; top: 4px; margin: 0 2px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAA7UlEQVQ4ja2TQQqDMBBFA121K6FQcOGqUOiiKOQgnsOVW2/h1lt4BI/gEbyGOztPbElrgrFN4MEwM/lk8hM1TZMKxXaDUifhGEosgVBiD/hbjBGzLNNA/K9YUte1Bp9RN0cchkGDz6jmJetviqLQUp8htvWYJzZPcU7TVDdN8xZwQQ+97HGOyXsSsqqqnELU6LG9Pds9HYRb13UrIXLU6PE2QNalLMuVGDlqu9yUdW3bdhbo+36GmBy1vWJ6HMeXg3cgJkfNW0xWlOe5hg/bJTbyka9Ysri12kBuqVl/g00sdrlluB1739mvBBV7AhG2d6ps7hf9AAAAAElFTkSuQmCC); }
 		.star:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABNklEQVQ4y62UoY6DUBBFMWtX1xCSNqnBkdTULM2amhv+AAUCBEj+BFtdhUeAqQDFLzR1WAQQEmAZwiawoemjyyQ3ecBwmPsueVzbttxaet3AcZ+ktWAiaS3YN+nfMLLH8zx2ux1YrL60qKoqHMcBi9WXFi+XC+I4BovV8Sbjr2RZRhRFyLIMmqZhrmc88XgKXhAE6LqO6/Xay/d93O93VFXVi9Z0j3qol955anP4p86maeLxeCBNU+R5jqZpetHasiyCnOcCmdunj07HIAjQXU8UhiGBjtTDHEBXW5qurusJzLZtgm0XpdnVwXVdFEWBJEl6EczzPIIdlsJwu91+E/wiGYaBsiz7BJlhXW0kScLpdJrG3q0VRQEV9bDCxCGtzdyHhmciK2z/LK1R2vu3To1VD8cl+gFlv3RuSxPY8wAAAABJRU5ErkJggg==); }
@@ -27,18 +19,146 @@
 	</style>
 </head>
 <body>
-	<h4>Priority</h4>
+	<h4>Favorites</h4>
 	<div id="priority"></div>
-	<h4>Everything Else</h4>
+	<h4>Listings</h4>
 	<div id="template"></div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://asana.com/craigslist/cta.js"></script>
 	<script>
+		/*
+		 * Date Format 1.2.3
+		 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+		 * MIT license
+		 *
+		 * Includes enhancements by Scott Trenda <scott.trenda.net>
+		 * and Kris Kowal <cixar.com/~kris.kowal/>
+		 *
+		 * Accepts a date, a mask, or a date and a mask.
+		 * Returns a formatted version of the given date.
+		 * The date defaults to the current date/time.
+		 * The mask defaults to dateFormat.masks.default.
+		 */
+
+		var dateFormat = function () {
+			var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+				timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+				timezoneClip = /[^-+\dA-Z]/g,
+				pad = function (val, len) {
+					val = String(val);
+					len = len || 2;
+					while (val.length < len) val = "0" + val;
+					return val;
+				};
+
+			// Regexes and supporting functions are cached through closure
+			return function (date, mask, utc) {
+				var dF = dateFormat;
+
+				// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+				if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+					mask = date;
+					date = undefined;
+				}
+
+				// Passing date through Date applies Date.parse, if necessary
+				date = date ? new Date(date) : new Date;
+				if (isNaN(date)) throw SyntaxError("invalid date");
+
+				mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+				// Allow setting the utc argument via the mask
+				if (mask.slice(0, 4) == "UTC:") {
+					mask = mask.slice(4);
+					utc = true;
+				}
+
+				var	_ = utc ? "getUTC" : "get",
+					d = date[_ + "Date"](),
+					D = date[_ + "Day"](),
+					m = date[_ + "Month"](),
+					y = date[_ + "FullYear"](),
+					H = date[_ + "Hours"](),
+					M = date[_ + "Minutes"](),
+					s = date[_ + "Seconds"](),
+					L = date[_ + "Milliseconds"](),
+					o = utc ? 0 : date.getTimezoneOffset(),
+					flags = {
+						d:    d,
+						dd:   pad(d),
+						ddd:  dF.i18n.dayNames[D],
+						dddd: dF.i18n.dayNames[D + 7],
+						m:    m + 1,
+						mm:   pad(m + 1),
+						mmm:  dF.i18n.monthNames[m],
+						mmmm: dF.i18n.monthNames[m + 12],
+						yy:   String(y).slice(2),
+						yyyy: y,
+						h:    H % 12 || 12,
+						hh:   pad(H % 12 || 12),
+						H:    H,
+						HH:   pad(H),
+						M:    M,
+						MM:   pad(M),
+						s:    s,
+						ss:   pad(s),
+						l:    pad(L, 3),
+						L:    pad(L > 99 ? Math.round(L / 10) : L),
+						t:    H < 12 ? "a"  : "p",
+						tt:   H < 12 ? "am" : "pm",
+						T:    H < 12 ? "A"  : "P",
+						TT:   H < 12 ? "AM" : "PM",
+						Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+						o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+						S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+					};
+
+				return mask.replace(token, function ($0) {
+					return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+				});
+			};
+		}();
+
+		// Some common format strings
+		dateFormat.masks = {
+			"default":      "ddd mmm dd yyyy HH:MM:ss",
+			shortDate:      "m/d/yy",
+			mediumDate:     "mmm d, yyyy",
+			longDate:       "mmmm d, yyyy",
+			fullDate:       "dddd, mmmm d, yyyy",
+			shortTime:      "h:MM TT",
+			mediumTime:     "h:MM:ss TT",
+			longTime:       "h:MM:ss TT Z",
+			isoDate:        "yyyy-mm-dd",
+			isoTime:        "HH:MM:ss",
+			isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+			isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+		};
+
+		// Internationalization strings
+		dateFormat.i18n = {
+			dayNames: [
+				"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+				"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+			],
+			monthNames: [
+				"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+				"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+			]
+		};
+
+		// For convenience...
+		Date.prototype.format = function (mask, utc) {
+			return dateFormat(this, mask, utc);
+		};
+	</script>
+	<script>
 		var posts = {} // building global object cache for posts
 
 		function Post(data) {
 			this.data = data;
+			this.postingDate = new Date(data.date);
 			this.dom = null;
 		}
 
@@ -53,23 +173,19 @@
 				if (this.hasImage()) {
 					row.append("<span class='p'> img</span>");
 				}
-				
-				row.append("<small class='gc'><a href='/ctd/'>dealer</a></small>")
-					.append("<br class='c'>");
 					
 				this.dom = row;
 			},
 			createListingExpanded: function() {
 				return $("<table>")
 					.append($("<tr>")
-						.append("<td>Date:")
-						.append("<td>" + this.data.date))
+						.append("<td><b>Date:</b> " + this.data.date.format("ddd mmm dd")))
 					.append($("<tr>")
-						.append("<td>Email:")
-						.append("<td>" + (this.data.email ? ("<a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>") : "N/A")))
+						.append("<td><b>Email:</b> " + (this.data.email ? ("<a href='" + this.data.mailto + "'>" + this.data.email + "</a>") : "N/A")))
 					.append($("<tr>")
-						.append("<td>Description:")
-						.append("<td>" + this.data.description_html));
+						.append("<td><b>Link:</b> <a target='_blank' href='" + this.data.uri + "'>" + this.data.uri + "</a>"))
+					.append($("<tr>")
+						.append("<td><br>" + this.data.description_html));
 			},
 			hasImage: function() {
 				return this.data.description_html.indexOf("<img") != -1;
