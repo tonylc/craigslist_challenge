@@ -1,97 +1,101 @@
 <head>
-  <title>SF bay area cars & trucks - all classifieds  - craigslist</title>
-  <style>
-    body     { background: white; }
-    fieldset { background: #eee; }
-    legend   { font-weight: bold; font-family: sans-serif; font-size: small; }
-    label    { cursor: pointer; }
-    em       { color: red; font-weight: bold; font-style: normal; }
-    sup      { font-size: x-small; }
-    form     { margin: 0 }
+	<title>SF bay area cars & trucks - all classifieds  - craigslist</title>
+	<style>
+		body     { background: white; }
+		fieldset { background: #eee; }
+		legend   { font-weight: bold; font-family: sans-serif; font-size: small; }
+		label    { cursor: pointer; }
+		em       { color: red; font-weight: bold; font-style: normal; }
+		sup      { font-size: x-small; }
+		form     { margin: 0 }
 
-    p   { clear: both; }
-    img { border: 0; }
+		p   { clear: both; }
+		img { border: 0; }
 
 		h4 { background: #EEE; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding: 6px 25px; }
 
-    input.dv, textarea.dv { color: #aaa !important ; }
+		input.dv, textarea.dv { color: #aaa !important ; }
 
-    #listings span.p,
- 		#prority span.p { color: orange; font-size: smaller; }
-    #listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
+		#listings span.p,
+		#prority span.p { color: orange; font-size: smaller; }
+		#listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
 
-    .star { height: 19px; width: 19px; cursor: pointer; display: inline-block; position: relative; top: 4px; margin: 0 2px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAA7UlEQVQ4ja2TQQqDMBBFA121K6FQcOGqUOiiKOQgnsOVW2/h1lt4BI/gEbyGOztPbElrgrFN4MEwM/lk8hM1TZMKxXaDUifhGEosgVBiD/hbjBGzLNNA/K9YUte1Bp9RN0cchkGDz6jmJetviqLQUp8htvWYJzZPcU7TVDdN8xZwQQ+97HGOyXsSsqqqnELU6LG9Pds9HYRb13UrIXLU6PE2QNalLMuVGDlqu9yUdW3bdhbo+36GmBy1vWJ6HMeXg3cgJkfNW0xWlOe5hg/bJTbyka9Ysri12kBuqVl/g00sdrlluB1739mvBBV7AhG2d6ps7hf9AAAAAElFTkSuQmCC); }
-    .star:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABNklEQVQ4y62UoY6DUBBFMWtX1xCSNqnBkdTULM2amhv+AAUCBEj+BFtdhUeAqQDFLzR1WAQQEmAZwiawoemjyyQ3ecBwmPsueVzbttxaet3AcZ+ktWAiaS3YN+nfMLLH8zx2ux1YrL60qKoqHMcBi9WXFi+XC+I4BovV8Sbjr2RZRhRFyLIMmqZhrmc88XgKXhAE6LqO6/Xay/d93O93VFXVi9Z0j3qol955anP4p86maeLxeCBNU+R5jqZpetHasiyCnOcCmdunj07HIAjQXU8UhiGBjtTDHEBXW5qurusJzLZtgm0XpdnVwXVdFEWBJEl6EczzPIIdlsJwu91+E/wiGYaBsiz7BJlhXW0kScLpdJrG3q0VRQEV9bDCxCGtzdyHhmciK2z/LK1R2vu3To1VD8cl+gFlv3RuSxPY8wAAAABJRU5ErkJggg==); }
-    .star.lit { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABAklEQVQ4y62UQQrCMBBFvYFH0Zt04UYQrCgoIuoReoQcxb2bLgQVBRUFXRZXgqAFBUUEx/wapbZNSGkKrwwzP5/OTGiOiHKm+LwUz35YKnIKKk0aMwZMmXkgsxlaPLhlAoizmrHLrE5A1aqumffcdAioWv0zE0OmKKdxlWjXC0CcpMHZ2JfxpI3ZXOeNn4EMaMQcbWmbuE8c35/WpEaoQRO+e9KZcVGe495XrZgRcqhBo70ALu6fJ3bMDDnUUm2THxjcFs3A4LFuByBGDrW0ZvTadr8bXALEyKGmbcbF1nFUIRC+qIhDeUvXjIltWdEvQE7UmK6ZE91WwrYdqZnRn6Mp3v40eks3+rwsAAAAAElFTkSuQmCC); }
-    .star.lit:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABsUlEQVQ4y61UPSxDURhtvSoq6WCzWI1YDCYLQfLaSUQlIsJC0g4S0hCL2AmDVSwiXfDURuJfIkoqQftalXQwNIJERCQ+9zy3ct/zLk3TJqc5Pd/5Tu+9333PQUSOUuH7S/5x3m6qTQyN4DJTIWFoLktqvnkAXBZYSBiay1NRfwYA51pRYcrhSntzdreXAHBoxYRhO66bDXXhOTZKADg0u61aw5x8CwoHmir1Ld/9hx4mABwar+V9xjmawvSoby697ScrcieDRJlpA+B2HvRaV+a+jHQNZ3d66CU2QnQ39SfggRc96LWGYVJV2mJrC5vc0+PpEFF60haowQMvetBrDcP+3QzVob76OnbYB2/xIFEqbAI01OCBl/cosgEYgWerHeHc8QCRPmECNNSEoN8DEO8WJsb+XXu9YGeXHKf3q5ABcGio8akqsqsh3voKTOkzMUa5o35KaGocAIeGGjzi0yBd2flaZ/fDXoAANq0lptUA4Hkdnv9W9nPrMa395bYA++3l5wN4oaFmfRqkYdfr6sxssKGWcQ/fjosD3IMaPIWEKfzOuYW3hFOYtlhTbMNKhS/+YkaFYiVmKgAAAABJRU5ErkJggg==); }
-  </style>
+		.star { height: 19px; width: 19px; cursor: pointer; display: inline-block; position: relative; top: 4px; margin: 0 2px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAA7UlEQVQ4ja2TQQqDMBBFA121K6FQcOGqUOiiKOQgnsOVW2/h1lt4BI/gEbyGOztPbElrgrFN4MEwM/lk8hM1TZMKxXaDUifhGEosgVBiD/hbjBGzLNNA/K9YUte1Bp9RN0cchkGDz6jmJetviqLQUp8htvWYJzZPcU7TVDdN8xZwQQ+97HGOyXsSsqqqnELU6LG9Pds9HYRb13UrIXLU6PE2QNalLMuVGDlqu9yUdW3bdhbo+36GmBy1vWJ6HMeXg3cgJkfNW0xWlOe5hg/bJTbyka9Ysri12kBuqVl/g00sdrlluB1739mvBBV7AhG2d6ps7hf9AAAAAElFTkSuQmCC); }
+		.star:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABNklEQVQ4y62UoY6DUBBFMWtX1xCSNqnBkdTULM2amhv+AAUCBEj+BFtdhUeAqQDFLzR1WAQQEmAZwiawoemjyyQ3ecBwmPsueVzbttxaet3AcZ+ktWAiaS3YN+nfMLLH8zx2ux1YrL60qKoqHMcBi9WXFi+XC+I4BovV8Sbjr2RZRhRFyLIMmqZhrmc88XgKXhAE6LqO6/Xay/d93O93VFXVi9Z0j3qol955anP4p86maeLxeCBNU+R5jqZpetHasiyCnOcCmdunj07HIAjQXU8UhiGBjtTDHEBXW5qurusJzLZtgm0XpdnVwXVdFEWBJEl6EczzPIIdlsJwu91+E/wiGYaBsiz7BJlhXW0kScLpdJrG3q0VRQEV9bDCxCGtzdyHhmciK2z/LK1R2vu3To1VD8cl+gFlv3RuSxPY8wAAAABJRU5ErkJggg==); }
+		.star.lit { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABAklEQVQ4y62UQQrCMBBFvYFH0Zt04UYQrCgoIuoReoQcxb2bLgQVBRUFXRZXgqAFBUUEx/wapbZNSGkKrwwzP5/OTGiOiHKm+LwUz35YKnIKKk0aMwZMmXkgsxlaPLhlAoizmrHLrE5A1aqumffcdAioWv0zE0OmKKdxlWjXC0CcpMHZ2JfxpI3ZXOeNn4EMaMQcbWmbuE8c35/WpEaoQRO+e9KZcVGe495XrZgRcqhBo70ALu6fJ3bMDDnUUm2THxjcFs3A4LFuByBGDrW0ZvTadr8bXALEyKGmbcbF1nFUIRC+qIhDeUvXjIltWdEvQE7UmK6ZE91WwrYdqZnRn6Mp3v40eks3+rwsAAAAAElFTkSuQmCC); }
+		.star.lit:hover { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAABsUlEQVQ4y61UPSxDURhtvSoq6WCzWI1YDCYLQfLaSUQlIsJC0g4S0hCL2AmDVSwiXfDURuJfIkoqQftalXQwNIJERCQ+9zy3ct/zLk3TJqc5Pd/5Tu+9333PQUSOUuH7S/5x3m6qTQyN4DJTIWFoLktqvnkAXBZYSBiay1NRfwYA51pRYcrhSntzdreXAHBoxYRhO66bDXXhOTZKADg0u61aw5x8CwoHmir1Ld/9hx4mABwar+V9xjmawvSoby697ScrcieDRJlpA+B2HvRaV+a+jHQNZ3d66CU2QnQ39SfggRc96LWGYVJV2mJrC5vc0+PpEFF60haowQMvetBrDcP+3QzVob76OnbYB2/xIFEqbAI01OCBl/cosgEYgWerHeHc8QCRPmECNNSEoN8DEO8WJsb+XXu9YGeXHKf3q5ABcGio8akqsqsh3voKTOkzMUa5o35KaGocAIeGGjzi0yBd2flaZ/fDXoAANq0lptUA4Hkdnv9W9nPrMa395bYA++3l5wN4oaFmfRqkYdfr6sxssKGWcQ/fjosD3IMaPIWEKfzOuYW3hFOYtlhTbMNKhS/+YkaFYiVmKgAAAABJRU5ErkJggg==); }
+	</style>
 </head>
 <body>
 	<h4>Priority</h4>
-  <div id="priority"></div>
+	<div id="priority"></div>
 	<h4>Everything Else</h4>
-  <div id="template"></div>
+	<div id="template"></div>
 
-  <script src="http://asana.com/craigslist/cta.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>
-    var posts = {} // building global object cache for posts
+	<script src="http://asana.com/craigslist/cta.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>
+		var posts = {} // building global object cache for posts
 
 		function Post(data) {
 			this.data = data;
 			this.dom = null;
 		}
-		
+
 		Post.prototype = {
 			createRow: function() {
-				this.dom = $("<p class='row'>")
-	        .append("<span class='star'></span>")
-	        .append("<span class='ih'></span>")
-	        .append("<a data-id='" + this.data.id + "' class='listing-link' href='" + this.data.uri + "'>" + this.data.title + "</a>")
-	        .append(" -<font size='-1'> (nob hill)</font> <span class='p'> img</span> <small class='gc'><a href='/ctd/'>dealer</a></small><br class='c'></p>");
+				this.dom = $("<p class='row' data-id='" + this.data.id + "'>")
+					.append("<span class='star'></span>")
+					.append("<span class='ih'></span>")
+					.append("<a class='listing-link' href='" + this.data.uri + "'>" + this.data.title + "</a>")
+					.append(" -<font size='-1'> (nob hill)</font> <span class='p'> img</span> <small class='gc'><a href='/ctd/'>dealer</a></small><br class='c'></p>");
 				return this.dom;
 			},
 			createListingExpanded: function() {
-	      return $("<table>")
-	        .append("<tr>")
-	          .append("<td>Email:")
-	          .append("<td><a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>");
-	    }
+				return $("<table>")
+					.append("<tr>")
+					.append("<td>Email:")
+					.append("<td><a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>");
+			}
 		}
 
-    $(function() {
-      var listings = $("<div id='listings'>")
-      $.each($(POSTS), function(i, el) {
+		$(function() {
+			var listings = $("<div id='listings'>")
+			$.each($(POSTS), function(i, el) {
 				var post = new Post(el);
 				post.createRow(el);
 				posts[el.id] = post
-        listings.append(post.dom);
-      });
-      $("#template").prepend(listings);
-    });
+				listings.append(post.dom);
+			});
+			$("#template").prepend(listings);
+		});
 
-    $("#template,#priority").on("click", ".listing-link", function(e) {
-      e.preventDefault();
-      var row = $(this).closest(".row"), table = row.find("table");
-      if (table.length) {
-        table.toggle();
-      } else {
-        var post = posts[$(this).data("id")];
-        table = post.createListingExpanded();
-        row.append(table);
-      }
-    });
+		$("#template,#priority").on("click", ".listing-link", function(e) {
+			e.preventDefault();
+			var row = $(this).closest(".row"), table = row.find("table");
+			if (table.length) {
+				table.toggle();
+			} else {
+			var post = posts[row.data("id")];
+				table = post.createListingExpanded();
+				row.append(table);
+			}
+		});
 
-    $("#template").on("click", ".star", function() {
-      var star = $(this), row = star.closest(".row");
-			$("#priority").append(row.clone());
-			row.hide();
-    });
+		$("#template").on("click", ".star", function() {
+			var oldRow = $(this).closest(".row")
+			var newRow = oldRow.clone()
+									.find(".star")
+										.addClass("lit")
+										.end();
+			$("#priority").append(newRow);
+			oldRow.hide();
+		});
 
 		$("#priority").on("click", ".star.lit", function() {
-			var star = $(this), row = star.closest(".row");
-			// removeRowFromPriority(row);
-			// $("#template .row").show();
+			var row = $(this).closest(".row"), rowId = row.data("id");
+			row.remove();
+			posts[rowId].dom.show();
 		});
-  </script>
+	</script>
 </body>
