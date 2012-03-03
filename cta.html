@@ -32,8 +32,8 @@
 	<h4>Everything Else</h4>
 	<div id="template"></div>
 
-	<script src="http://asana.com/craigslist/cta.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://asana.com/craigslist/cta.js"></script>
 	<script>
 		var posts = {} // building global object cache for posts
 
@@ -54,8 +54,14 @@
 			createListingExpanded: function() {
 				return $("<table>")
 					.append($("<tr>")
+						.append("<td>Date:")
+						.append("<td>" + this.data.date))
+					.append($("<tr>")
 						.append("<td>Email:")
-						.append("<td>" + (this.data.email ? ("<a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>") : "N/A")));
+						.append("<td>" + (this.data.email ? ("<a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>") : "N/A")))
+					.append($("<tr>")
+						.append("<td>Description:")
+						.append("<td>" + this.data.description_html));
 			}
 		}
 
