@@ -53,9 +53,9 @@
 			},
 			createListingExpanded: function() {
 				return $("<table>")
-					.append("<tr>")
-					.append("<td>Email:")
-					.append("<td><a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>");
+					.append($("<tr>")
+						.append("<td>Email:")
+						.append("<td>" + (this.data.email ? ("<a href=\"" + this.data.mailto + "\">" + this.data.email + "</a>") : "N/A")));
 			}
 		}
 
