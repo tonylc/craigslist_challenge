@@ -1,15 +1,15 @@
 <head>
 	<title>SF bay area cars & trucks - all classifieds  - craigslist</title>
 	<style>
-		body     { background: white; }
-		p   { clear: both; }
+		body { background: white; }
+		p { clear: both; }
 		img { border: 0; }
 		h4 { background: #EEE; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; padding: 6px 25px; }
 
 		#listings span.p,
 		#prority span.p { color: orange; font-size: smaller; }
 		#listings .gc a { padding: 2px; background: #EEE; text-decoration: none; }
-		
+
 		.row table { margin-left: 20px; }
 
 		.star { height: 19px; width: 19px; cursor: pointer; display: inline-block; position: relative; top: 4px; margin: 0 2px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAA7UlEQVQ4ja2TQQqDMBBFA121K6FQcOGqUOiiKOQgnsOVW2/h1lt4BI/gEbyGOztPbElrgrFN4MEwM/lk8hM1TZMKxXaDUifhGEosgVBiD/hbjBGzLNNA/K9YUte1Bp9RN0cchkGDz6jmJetviqLQUp8htvWYJzZPcU7TVDdN8xZwQQ+97HGOyXsSsqqqnELU6LG9Pds9HYRb13UrIXLU6PE2QNalLMuVGDlqu9yUdW3bdhbo+36GmBy1vWJ6HMeXg3cgJkfNW0xWlOe5hg/bJTbyka9Ysri12kBuqVl/g00sdrlluB1739mvBBV7AhG2d6ps7hf9AAAAAElFTkSuQmCC); }
@@ -39,13 +39,12 @@
 				var row = $("<p class='row' data-id='" + this.data.id + "'>")
 					.append("<span class='star'></span>")
 					.append("<span class='ih'></span>")
-					.append("<a class='listing-link' href='" + this.data.uri + "'>" + this.data.title + "</a>")
-					.append(" -<font size='-1'> (nob hill)</font>");
-					
+					.append("<a class='listing-link' href='" + this.data.uri + "'>" + this.data.title + "</a>");
+
 				if (this.hasImage()) {
 					row.append("<span class='p'> img</span>");
 				}
-					
+
 				this.dom = row;
 			},
 			createListingExpanded: function() {
@@ -90,9 +89,9 @@
 		$("#template").on("click", ".star", function() {
 			var oldRow = $(this).closest(".row")
 			var newRow = oldRow.clone()
-									.find(".star")
-										.addClass("lit")
-										.end();
+			              .find(".star")
+			                .addClass("lit")
+			                .end();
 			$("#priority").append(newRow);
 			oldRow.hide();
 		});
