@@ -80,7 +80,7 @@
 			if (table.length) {
 				table.toggle();
 			} else {
-			var post = posts[row.data("id")];
+        var post = posts[row.data("id")];
 				table = post.createListingExpanded();
 				row.append(table);
 			}
@@ -89,9 +89,9 @@
 		$("#template").on("click", ".star", function() {
 			var oldRow = $(this).closest(".row")
 			var newRow = oldRow.clone()
-			              .find(".star")
-			                .addClass("lit")
-			                .end();
+			                .find(".star")
+			                  .addClass("lit")
+			                  .end();
 			$("#priority").append(newRow);
 			oldRow.hide();
 		});
